@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  
+  primarydb:
+    image: postgres:latest
+    restart: always
+    env_file:
+      - ../src/db.env
+    ports:
+      - 32432:5432
+  
+  server:
+    restart: always
+    build:
+      context: ../
+      dockerfile: ./deploy/Dockerfile
+    env_file:
+      - ../src/db.env
+    volumes:
+      - ../src/:/usr/src/app
+    ports:
+      - 8000:8000
+      - 5678:5678

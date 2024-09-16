@@ -112,5 +112,4 @@ venv.bak/
 # OS generated files #
 .DS_Store
 .vscode
-deploy
 db.env
