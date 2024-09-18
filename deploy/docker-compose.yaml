@@ -17,6 +17,7 @@ services:
       dockerfile: ./deploy/Dockerfile
     env_file:
       - ../src/db.env
+      - ../src/.env
     volumes:
       - ../src/:/usr/src/app
     ports:
