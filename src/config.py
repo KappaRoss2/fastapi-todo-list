@@ -1,13 +1,38 @@
-from os import environ
+from dotenv import load_dotenv
+
+from pydantic import EmailStr
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+load_dotenv(dotenv_path='.env')
+load_dotenv(dotenv_path='db.env')
 
 
-POSTGRES_HOST = environ.get('POSTGRES_HOST')
-POSTGRES_PORT = environ.get('POSTGRES_PORT')
-POSTGRES_DB = environ.get('POSTGRES_DB')
-POSTGRES_USER = environ.get('POSTGRES_USER')
-POSTGRES_PASSWORD = environ.get('POSTGRES_PASSWORD')
+class DataBaseSettings(BaseSettings):
+    """Конфиги базы данных."""
 
-DEBUG = True if environ.get('DEBUG').lower() == 'true' else False
+    model_config = SettingsConfigDict(case_sensitive=False, env_prefix='POSTGRES_')
+    host: str
+    port: str
+    db: str
+    user: str
+    password: str
 
-CRYPT_CONTEXT_SCHEMA = environ.get('CRYPT_CONTEXT_SCHEMA')
-CREPT_CONTEXT_DEPRECATED = environ.get('CREPT_CONTEXT_DEPRECATED')
+
+class AppSettings(BaseSettings):
+    """Конфиги приложения."""
+
+    model_config = SettingsConfigDict(case_sensitive=False)
+
+    debug: bool
+    crypt_context_schema: str
+    crypt_context_deprecated: str
+    redis_broker: str
+    redis_backend: str
+    smtp_server: str
+    smtp_port: int
+    smtp_username: EmailStr
+    smtp_password: str
+
+
+db_settings = DataBaseSettings()
+app_settings = AppSettings()

@@ -23,3 +23,27 @@ services:
     ports:
       - 8000:8000
       - 5678:5678
+
+  celery:
+    restart: always
+    build:
+      context: ../
+      dockerfile: ./deploy/celery.Dockerfile
+    env_file:
+      - ../src/db.env
+      - ../src/.env
+    command: celery -A worker_config worker -l info
+    volumes:
+      - ../src/:/usr/src/app
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+
+volumes:
+  redis_data:

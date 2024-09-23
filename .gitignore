@@ -113,3 +113,4 @@ venv.bak/
 .DS_Store
 .vscode
 db.env
+versions/

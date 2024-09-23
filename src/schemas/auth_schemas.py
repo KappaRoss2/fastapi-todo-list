@@ -37,3 +37,10 @@ class RegistrationOutputSchema(BaseModel):
     id: UUID
     username: str
     email: EmailStr
+
+
+class LoginInputSchema(BaseModel):
+    """Схема входных данных при входе."""
+
+    login: Union[EmailStr, str]
+    password: str

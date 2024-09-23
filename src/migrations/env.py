@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from config import POSTGRES_DB, POSTGRES_HOST, POSTGRES_PASSWORD, POSTGRES_PORT, POSTGRES_USER
+from config import db_settings
 
 from models import Base
 
@@ -16,11 +16,12 @@ from models import Base
 config = context.config
 section = config.config_ini_section
 
-config.set_section_option(section, 'POSTGRES_DB', POSTGRES_DB)
-config.set_section_option(section, 'POSTGRES_HOST', POSTGRES_HOST)
-config.set_section_option(section, 'POSTGRES_PASSWORD', POSTGRES_PASSWORD)
-config.set_section_option(section, 'POSTGRES_PORT', POSTGRES_PORT)
-config.set_section_option(section, 'POSTGRES_USER', POSTGRES_USER)
+config.set_section_option(section, 'POSTGRES_DB', db_settings.db)
+config.set_section_option(section, 'POSTGRES_HOST', db_settings.host)
+config.set_section_option(section, 'POSTGRES_PASSWORD', db_settings.password)
+config.set_section_option(section, 'POSTGRES_PORT', db_settings.port)
+config.set_section_option(section, 'POSTGRES_USER', db_settings.user)
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:

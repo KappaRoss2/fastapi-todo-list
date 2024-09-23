@@ -1,8 +1,7 @@
 from uuid import uuid4
 from datetime import datetime
 
-from sqlalchemy import text
-from sqlalchemy import func, String, DateTime
+from sqlalchemy import func, text, String, DateTime, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -24,3 +23,15 @@ class User(Base):
     password: Mapped[str] = mapped_column(String, doc='Пароль')
     email: Mapped[str] = mapped_column(String, doc='Email', unique=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, doc='Время регистрации', server_default=func.now())
+    is_register: Mapped[bool] = mapped_column(
+        Boolean,
+        doc='Подтвреждена ли регистрация',
+        default=False,
+        server_default=text('false')
+    )
+    is_confirmed: Mapped[bool] = mapped_column(
+        Boolean,
+        doc='Пройдена ли двухфакторная аутентификация',
+        default=False,
+        server_default=text('false'),
+    )
