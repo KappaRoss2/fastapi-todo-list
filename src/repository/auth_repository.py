@@ -115,10 +115,9 @@ class AuthRepository(AuthRepositoryABC):
         is_password_correct = pwd_context.verify(password, current_user.password)
         if not is_password_correct:
             raise http_exception
-        code = await self._generate_user_code(current_user.id)
-        return code, current_user.email
+        return current_user.id, current_user.email
 
-    async def _generate_user_code(self, user_id: UUID) -> int:
+    async def generate_user_code(self, user_id: UUID) -> int:
         """Генерация случайного 6-ти значного числа для пользователя.
 
         Args:
@@ -126,7 +125,7 @@ class AuthRepository(AuthRepositoryABC):
         """
         code = randint(100000, 999999)
         users_code_data = {
-            'code': randint(100000, 999999),
+            'code': code,
             'user': user_id,
         }
         users_code = UsersCode(**users_code_data)

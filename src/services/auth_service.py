@@ -55,7 +55,8 @@ class AuthService(AuthServiceABC):
         Args:
             login_data (LoginInputSchema): Данные для входа
         """
-        code, recipient = await self.repository.login(login_data.model_dump())
+        user_id, user_email = await self.repository.login(login_data.model_dump())
+        code = await self.repository.generate_user_code(user_id=user_id)
         subject = 'Двухфакторная аутентификация'
         body = f'Код для двухфакторной аутентификации: {code}'
         send_email.delay(
@@ -63,7 +64,7 @@ class AuthService(AuthServiceABC):
             app_settings.smtp_port,
             app_settings.smtp_username,
             app_settings.smtp_password,
-            recipient,
+            user_email,
             subject,
             body
         )
