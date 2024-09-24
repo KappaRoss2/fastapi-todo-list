@@ -3,7 +3,10 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 
 from services import AuthService, get_auth_service
-from schemas import RegistrationOutputSchema, RegistrationInputSchema, LoginInputSchema
+from schemas import (
+    RegistrationOutputSchema, RegistrationInputSchema, LoginInputSchema, VerifyInputSchema, TokenSchema,
+    LoginOutputSchema
+)
 
 router = APIRouter(tags=['Аутентификация и регистрация'])
 
@@ -29,10 +32,28 @@ async def register(
     description='Аутентификация',
     summary='Вход',
     status_code=status.HTTP_200_OK,
+    response_model=LoginOutputSchema
 )
 async def login(
     user: LoginInputSchema,
     auth_service: Annotated[AuthService, Depends(get_auth_service)]
 ):
     """Аутентификация пользователя."""
-    await auth_service.login(user)
+    result = await auth_service.login(user)
+    return result
+
+
+@router.post(
+    '/verify-otp',
+    description='Подтверждение из письма',
+    summary='Подтверждение из письма',
+    response_model=TokenSchema,
+    status_code=status.HTTP_200_OK,
+)
+async def verify_otp(
+    user: VerifyInputSchema,
+    auth_service: Annotated[AuthService, Depends(get_auth_service)]
+):
+    """Подтверждение кодом из сообщения."""
+    result = await auth_service.verify_otp(user)
+    return result

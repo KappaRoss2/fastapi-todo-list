@@ -32,6 +32,9 @@ class AppSettings(BaseSettings):
     smtp_port: int
     smtp_username: EmailStr
     smtp_password: str
+    secret_key: str
+    algorithm: str
+    access_token_expire_minutes: int
 
 
 db_settings = DataBaseSettings()

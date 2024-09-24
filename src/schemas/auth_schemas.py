@@ -1,3 +1,4 @@
+from enum import Enum
 from uuid import UUID
 from typing import Union
 
@@ -44,3 +45,29 @@ class LoginInputSchema(BaseModel):
 
     login: Union[EmailStr, str]
     password: str
+
+
+class LoginOutputSchema(RegistrationOutputSchema):
+    """Схема выходных данных при входе."""
+
+    pass
+
+
+class VerifyInputSchema(BaseModel):
+    """Схема входных данных для подтверждения входа с помощью кода из сообщения."""
+
+    user_id: UUID
+    code: int
+
+
+class TokenType(Enum):
+    """Енам типов токена."""
+
+    Bearer = 'Bearer'
+
+
+class TokenSchema(BaseModel):
+    """Схема токена для подтверждения входа с помощью кода из сообщения."""
+
+    access_token: str
+    token_type: TokenType

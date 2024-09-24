@@ -5,5 +5,4 @@ __all__ = (
 )
 
 from .base import Base
-from .user import User
-from .users_code import UsersCode
+from .user import User, UsersCode
