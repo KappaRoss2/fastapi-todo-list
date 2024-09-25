@@ -32,7 +32,7 @@ services:
     env_file:
       - ../src/db.env
       - ../src/.env
-    command: celery -A worker_config worker -l info
+    command: celery -A worker_config worker --beat --loglevel=info
     volumes:
       - ../src/:/usr/src/app
 

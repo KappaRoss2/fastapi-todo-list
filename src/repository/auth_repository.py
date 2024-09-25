@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta, timezone
 from typing import Union
-from random import randint
 
 from fastapi import HTTPException, status
 
@@ -134,22 +133,17 @@ class AuthRepository(AuthRepositoryABC):
         await self.session.execute(stmt)
         await self.session.commit()
 
-    async def generate_user_code(self, user_id: UUID) -> int:
+    async def create_user_code(self, data: dict) -> UsersCode:
         """Генерация случайного 6-ти значного числа для пользователя.
 
         Args:
             current_user (User): Пользователь для которого генирируем код.
         """
-        code = randint(100000, 999999)
-        users_code_data = {
-            'code': code,
-            'user_id': user_id,
-        }
-        users_code = UsersCode(**users_code_data)
+        users_code = UsersCode(**data)
         self.session.add(users_code)
         await self.session.commit()
         await self.session.refresh(users_code)
-        return code
+        return users_code
 
     async def verify_otp(self, user_data: dict) -> bool:
         """Подтверждение входа из почты.

@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from random import randint
 
 from fastapi import Depends, HTTPException, status
 
@@ -62,9 +63,14 @@ class AuthService(AuthServiceABC):
         """
         current_user = await self.repository.login(login_data.model_dump())
         await self.repository.delete_user_code(current_user.id)
-        code = await self.repository.generate_user_code(user_id=current_user.id)
+        code = randint(100000, 999999)
+        user_code_data = {
+            'code': code,
+            'user_id': current_user.id
+        }
+        user_code = await self.repository.create_user_code(user_code_data)
         subject = 'Двухфакторная аутентификация'
-        body = f'Код для двухфакторной аутентификации: {code}'
+        body = f'Код для двухфакторной аутентификации: {user_code.code}'
         send_email.delay(
             app_settings.smtp_server,
             app_settings.smtp_port,
@@ -84,6 +90,7 @@ class AuthService(AuthServiceABC):
                 'is_confirmed': True
             }
             await self.repository.update_user(user_id=user_data.user_id, update_data=updated_data)
+            await self.repository.delete_user_code(user_data.user_id)
             token = self.repository.create_jwt_token(user_data.user_id)
             return token
         else:
