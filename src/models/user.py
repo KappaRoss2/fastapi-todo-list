@@ -1,11 +1,16 @@
 from uuid import uuid4
 from datetime import datetime
+from typing import List, TYPE_CHECKING
 
 from sqlalchemy import func, text, String, DateTime, Boolean, Integer, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
+
+
+if TYPE_CHECKING:
+    from .task import Task
 
 
 class User(Base):
@@ -36,6 +41,7 @@ class User(Base):
         default=False,
         server_default=text('false'),
     )
+    tasks: Mapped[List['Task']] = relationship('Task', back_populates='user')
 
 
 class UsersCode(Base):
