@@ -31,3 +31,27 @@ class TaskCreateOutputSchema(BaseTaskOutputSchema):
     """Схема выходных данных для карточки задания при ее создании."""
 
     pass
+
+
+class TaskListOutputSchema(BaseTaskOutputSchema):
+    """Схема списка выходных данных для карточки задания."""
+
+    pass
+
+
+class TaskRetrieveOutputSchema(BaseTaskOutputSchema):
+    """Схема выходных данных конкретной карточки задания."""
+
+    pass
+
+
+class TaskUpdateInputSchema(BaseTaskInputSchema):
+    """Схема входных данных при обновлении конкретной карточки задания."""
+
+    status: bool
+
+
+class TaskUpdateOutputSchema(BaseTaskOutputSchema):
+    """Схема выходных данных при обновлении конкретной карточки задания."""
+
+    pass
