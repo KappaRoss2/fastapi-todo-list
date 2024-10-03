@@ -16,11 +16,7 @@ class DataBaseSettings(BaseSettings):
     db: str
     user: str
     password: str
-    test_host: str
-    test_port: str
     test_db: str
-    test_user: str
-    test_password: str
 
 
 class AppSettings(BaseSettings):

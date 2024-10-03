@@ -17,8 +17,8 @@ EXISTING_DB_URL = (
 )
 
 TEST_DB_URL = (
-    f'postgresql+asyncpg://{db_settings.test_user}'
-    f':{db_settings.test_password}@{db_settings.test_host}:{db_settings.test_port}/{db_settings.test_db}'
+    f'postgresql+asyncpg://{db_settings.user}'
+    f':{db_settings.password}@{db_settings.host}:{db_settings.port}/{db_settings.test_db}'
 )
 
 existing_engine = create_async_engine(EXISTING_DB_URL, future=True, echo=True, poolclass=NullPool)
