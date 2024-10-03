@@ -1,7 +1,7 @@
 from uuid import UUID
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class BaseTaskInputSchema(BaseModel):
@@ -36,13 +36,13 @@ class TaskCreateOutputSchema(BaseTaskOutputSchema):
 class TaskListOutputSchema(BaseTaskOutputSchema):
     """Схема списка выходных данных для карточки задания."""
 
-    pass
+    model_config = ConfigDict(from_attributes=True)
 
 
 class TaskRetrieveOutputSchema(BaseTaskOutputSchema):
     """Схема выходных данных конкретной карточки задания."""
 
-    pass
+    model_config = ConfigDict(from_attributes=True)
 
 
 class TaskUpdateInputSchema(BaseTaskInputSchema):
@@ -54,4 +54,4 @@ class TaskUpdateInputSchema(BaseTaskInputSchema):
 class TaskUpdateOutputSchema(BaseTaskOutputSchema):
     """Схема выходных данных при обновлении конкретной карточки задания."""
 
-    pass
+    model_config = ConfigDict(from_attributes=True)
