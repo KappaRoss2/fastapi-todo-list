@@ -3,6 +3,8 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
+from .user_schemas import UserSchema
+
 
 class BaseTaskInputSchema(BaseModel):
     """Базовая схема входных данных для карточки задания."""
@@ -37,12 +39,14 @@ class TaskListOutputSchema(BaseTaskOutputSchema):
     """Схема списка выходных данных для карточки задания."""
 
     model_config = ConfigDict(from_attributes=True)
+    user: UserSchema
 
 
 class TaskRetrieveOutputSchema(BaseTaskOutputSchema):
     """Схема выходных данных конкретной карточки задания."""
 
     model_config = ConfigDict(from_attributes=True)
+    user: UserSchema
 
 
 class TaskUpdateInputSchema(BaseTaskInputSchema):
